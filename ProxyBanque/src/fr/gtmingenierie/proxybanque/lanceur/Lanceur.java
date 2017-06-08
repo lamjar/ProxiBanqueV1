@@ -14,9 +14,9 @@ public class Lanceur {
 		// Declaration, instanciation
 		AgenceService agenceService = new AgenceService();
 		GerantService gerantService = new GerantService();
-		ClientService clientService = new ClientService();
+		ClientService clientService = new ClientService(agenceService);
 		CompteService compteService = new CompteService();
-		ConseillerService conseillerService = new ConseillerService();
+		ConseillerService conseillerService = new ConseillerService(agenceService);
 		
 		// Remplissage des différentes listes
 		agenceService.ajoutAgence("ABCD1", new Agence("ABCD1","08/06/2017"));
@@ -25,11 +25,11 @@ public class Lanceur {
 		gerantService.ajoutGerant(new Gerant("Wayne", "Bruce", "batman"));
 		gerantService.ajoutGerant(new Gerant("Stark", "Tony", "ironman"));
 		
-		conseillerService.ajoutConseiller(agenceService, "ABCD1", new Conseiller("Hubert", "Paul", "password"));
-		conseillerService.ajoutConseiller(agenceService, "ABCD2", new Conseiller("Dupont", "Michel", "password"));
+		conseillerService.ajoutConseiller("ABCD1", new Conseiller("Hubert", "Paul", "password"));
+		conseillerService.ajoutConseiller("ABCD2", new Conseiller("Dupont", "Michel", "password"));
 		
-		clientService.ajoutClient(agenceService, "ABCD1", 0, new Client("Nom", "Prenom", "Adresse du client", "38000", "Grenoble", "04 05 60 78 21"));
-		clientService.ajoutClient(agenceService, "ABCD2", 0, new Client("Nom", "Prenom", "Adresse du client", "38000", "Grenoble", "04 05 60 78 21"));
+		clientService.ajoutClient("ABCD1", 0, new Client("Nom", "Prenom", "Adresse du client", "38000", "Grenoble", "04 05 60 78 21"));
+		clientService.ajoutClient("ABCD2", 0, new Client("Nom", "Prenom", "Adresse du client", "38000", "Grenoble", "04 05 60 78 21"));
 		
 		// Assignation des gérants dans les agences (possibilité de faire une boucle)
 		agenceService.assignerGerant("ABCD1", gerantService.getGerant(0));
@@ -37,8 +37,8 @@ public class Lanceur {
 		
 		// Affichage des listes
 		agenceService.afficher();
-		conseillerService.afficher(agenceService, "ABCD1");
-		clientService.afficher(agenceService, "ABCD1", 0);
+		conseillerService.afficher("ABCD1");
+		clientService.afficher("ABCD1", 0);
 		
 		
 		
