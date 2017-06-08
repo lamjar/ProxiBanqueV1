@@ -72,5 +72,10 @@ public abstract class Employe {
 		ID = compteurEmploye;
 		compteurEmploye++;
 	}
+	
+	@Override
+	public String toString() {
+		return "[Nom : \""+nom+"\" ; Prenom : \""+prenom+"\" ; ID : "+ID+"]";
+	}
 
 }

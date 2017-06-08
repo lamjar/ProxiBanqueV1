@@ -7,7 +7,7 @@ public class Agence {
 	private String ID;
 	private String dateCreation;
 	private Gerant gerant;
-	private ArrayList<Employe> listeEmploye; // En premier le gérant puis tous les conseillers
+	private ArrayList<Conseiller> listeConseiller;
 
 	/**
 	 * 
@@ -16,7 +16,8 @@ public class Agence {
 	public Agence(String pID, String pDateCreation) {
 		// TODO - implement Agence.Agence
 		dateCreation = pDateCreation;
-		ID = pID;		
+		ID = pID;
+		listeConseiller = new ArrayList<Conseiller>();
 	}
 
 	public String getID() {
@@ -49,6 +50,15 @@ public class Agence {
 
 	public void setGerant(Gerant gerant) {
 		this.gerant = gerant;
+	}
+	
+	public ArrayList<Conseiller> getListeConseiller() {
+		return listeConseiller;
+	}
+	
+	@Override
+	public String toString() {
+		return "[Identifiant : "+ID+" ; date de creation : "+dateCreation+" ; Nom du gerant : "+gerant.getNom()+"]";
 	}
 
 }

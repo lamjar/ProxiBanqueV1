@@ -21,7 +21,12 @@ public class Client {
 	 */
 	public Client(String pNom, String pPrenom, String pAdresse, String pCodePostal, String pVille, String pTelephone) {
 		// TODO - implement Client.Client
-		throw new UnsupportedOperationException();
+		nom = pNom;
+		prenom = pPrenom;
+		adresse = pAdresse;
+		codePostal = pCodePostal;
+		ville = pVille;
+		telephone = pTelephone;
 	}
 
 	public String getNom() {
@@ -94,6 +99,11 @@ public class Client {
 	 */
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+	
+	@Override
+	public String toString() {
+		return "[Nom : \""+nom+"\" ; Prenom : \""+prenom+"\" ; Telephone : "+telephone+"]";
 	}
 
 }

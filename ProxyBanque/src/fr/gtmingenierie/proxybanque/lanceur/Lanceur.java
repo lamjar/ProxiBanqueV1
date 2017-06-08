@@ -16,24 +16,29 @@ public class Lanceur {
 		GerantService gerantService = new GerantService();
 		ClientService clientService = new ClientService();
 		CompteService compteService = new CompteService();
+		ConseillerService conseillerService = new ConseillerService();
 		
 		// Remplissage des différentes listes
-		agenceService.ajoutAgence(new Agence("ABCD1","08/06/2017"));
-		agenceService.ajoutAgence(new Agence("ABCD2","08/06/2017"));
+		agenceService.ajoutAgence("ABCD1", new Agence("ABCD1","08/06/2017"));
+		agenceService.ajoutAgence("ABCD2", new Agence("ABCD2","08/06/2017"));
 		
 		gerantService.ajoutGerant(new Gerant("Wayne", "Bruce", "batman"));
 		gerantService.ajoutGerant(new Gerant("Stark", "Tony", "ironman"));
 		
-		// ajouts clients et des conseiller
+		conseillerService.ajoutConseiller(agenceService, "ABCD1", new Conseiller("Hubert", "Paul", "password"));
+		conseillerService.ajoutConseiller(agenceService, "ABCD2", new Conseiller("Dupont", "Michel", "password"));
+		
+		clientService.ajoutClient(agenceService, "ABCD1", 0, new Client("Nom", "Prenom", "Adresse du client", "38000", "Grenoble", "04 05 60 78 21"));
+		clientService.ajoutClient(agenceService, "ABCD2", 0, new Client("Nom", "Prenom", "Adresse du client", "38000", "Grenoble", "04 05 60 78 21"));
 		
 		// Assignation des gérants dans les agences (possibilité de faire une boucle)
-		agenceService.assignerGerant(0, gerantService.getGerant(0));
-		agenceService.assignerGerant(1, gerantService.getGerant(1));
+		agenceService.assignerGerant("ABCD1", gerantService.getGerant(0));
+		agenceService.assignerGerant("ABCD2", gerantService.getGerant(1));
 		
-		// Remplissage de la liste des employés de chaque agence
-		
-		
-		
+		// Affichage des listes
+		agenceService.afficher();
+		conseillerService.afficher(agenceService, "ABCD1");
+		clientService.afficher(agenceService, "ABCD1", 0);
 		
 		
 		
