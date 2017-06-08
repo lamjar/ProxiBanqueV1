@@ -41,4 +41,8 @@ public class AgenceService {
 		}
 		System.out.println("");
 	}
+	
+	public boolean verifieID(String ID) {
+		return mapAgence.containsKey(ID);
+	}
 }

@@ -2,6 +2,7 @@ package fr.gtmingenierie.proxybanque.lanceur;
 
 import java.util.Scanner;
 import fr.gtmingenierie.proxybanque.domaine.*;
+import fr.gtmingenierie.proxybanque.presentation.Menu;
 import fr.gtmingenierie.proxybanque.service.*;
 
 public class Lanceur {
@@ -17,6 +18,8 @@ public class Lanceur {
 		ClientService clientService = new ClientService(agenceService);
 		CompteService compteService = new CompteService();
 		ConseillerService conseillerService = new ConseillerService(agenceService);
+		
+		Menu menu = new Menu(agenceService, conseillerService, clientService);
 		
 		// Remplissage des différentes listes
 		agenceService.ajoutAgence("ABCD1", new Agence("ABCD1","08/06/2017"));
@@ -40,7 +43,8 @@ public class Lanceur {
 		conseillerService.afficher("ABCD1");
 		clientService.afficher("ABCD1", 0);
 		
-		
+		// Menu
+		menu.useMenu();
 		
 		
 		

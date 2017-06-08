@@ -1,7 +1,6 @@
 package fr.gtmingenierie.proxybanque.service;
 
 import java.util.ArrayList;
-
 import fr.gtmingenierie.proxybanque.domaine.Client;
 import fr.gtmingenierie.proxybanque.domaine.Conseiller;
 
@@ -22,5 +21,12 @@ public class ConseillerService implements IEmployeService {
 		System.out.println(aS.getAgence(idAgence).getListeConseiller());
 		System.out.println("");
 	}
-
+	
+	public void afficherNumerote(String idAgence) {
+		int i = 0;
+		for (Conseiller c : aS.getAgence(idAgence).getListeConseiller()) {
+			System.out.println(i + ". " + c.getNom() + " " + c.getPrenom());
+			i++;
+		}
+	}
 }

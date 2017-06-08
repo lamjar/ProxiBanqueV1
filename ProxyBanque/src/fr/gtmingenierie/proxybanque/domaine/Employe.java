@@ -33,8 +33,7 @@ public abstract class Employe {
 	}
 
 	public Integer getID() {
-		// TODO - implement Employe.getID
-		throw new UnsupportedOperationException();
+		return ID;
 	}
 
 	/**
