@@ -1,6 +1,8 @@
 package fr.gtmingenierie.proxybanque.domaine;
+
 public abstract class Employe {
 
+	private static int compteurEmploye = 0;
 	private String nom;
 	private String prenom;
 	private Integer ID;
@@ -64,7 +66,11 @@ public abstract class Employe {
 	 */
 	public Employe(String pNom, String pPrenom, String pPassword) {
 		// TODO - implement Employe.Employe
-		throw new UnsupportedOperationException();
+		nom = pNom;
+		prenom = pPrenom;
+		password = pPassword;
+		ID = compteurEmploye;
+		compteurEmploye++;
 	}
 
 }

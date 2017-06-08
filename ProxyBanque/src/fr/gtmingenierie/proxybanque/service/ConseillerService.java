@@ -1,3 +1,8 @@
 package fr.gtmingenierie.proxybanque.service;
-public class ConseillerService {
+
+import java.util.ArrayList;
+
+public class ConseillerService implements IEmployeService {
+		
+	
 }

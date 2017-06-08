@@ -1,22 +1,26 @@
 package fr.gtmingenierie.proxybanque.domaine;
 
+import java.util.ArrayList;
+
 public class Agence {
 
 	private String ID;
 	private String dateCreation;
+	private Gerant gerant;
+	private ArrayList<Employe> listeEmploye; // En premier le gérant puis tous les conseillers
 
 	/**
 	 * 
 	 * @param pDateCreation
 	 */
-	public Agence(String pDateCreation) {
+	public Agence(String pID, String pDateCreation) {
 		// TODO - implement Agence.Agence
-		throw new UnsupportedOperationException();
+		dateCreation = pDateCreation;
+		ID = pID;		
 	}
 
 	public String getID() {
-		// TODO - implement Agence.getID
-		throw new UnsupportedOperationException();
+		return ID;
 	}
 
 	/**
@@ -24,8 +28,7 @@ public class Agence {
 	 * @param ID
 	 */
 	public void setID(String ID) {
-		// TODO - implement Agence.setID
-		throw new UnsupportedOperationException();
+		this.ID = ID;
 	}
 
 	public String getDateCreation() {
@@ -38,6 +41,14 @@ public class Agence {
 	 */
 	public void setDateCreation(String dateCreation) {
 		this.dateCreation = dateCreation;
+	}
+
+	public Gerant getGerant() {
+		return gerant;
+	}
+
+	public void setGerant(Gerant gerant) {
+		this.gerant = gerant;
 	}
 
 }
