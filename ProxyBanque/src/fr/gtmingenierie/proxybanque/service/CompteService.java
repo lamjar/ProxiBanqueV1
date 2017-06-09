@@ -12,9 +12,11 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import fr.gtmingenierie.proxybanque.domaine.CarteVisaElectron;
 import fr.gtmingenierie.proxybanque.domaine.Client;
 import fr.gtmingenierie.proxybanque.domaine.Compte;
 import fr.gtmingenierie.proxybanque.domaine.CompteCourant;
+import fr.gtmingenierie.proxybanque.domaine.CompteCourant.TypeCarte;
 import fr.gtmingenierie.proxybanque.domaine.CompteEpargne;
 import fr.gtmingenierie.proxybanque.domaine.Conseiller;
 
@@ -169,6 +171,76 @@ public class CompteService {
 			return false;
 		client.setCompteEpargne(null);
 		return true;
+	}
+
+	/**
+	 * Creation d'une carte qui sera liee au compte courant du client. Si le
+	 * client ou le compte courant n'existe pas, la methode retournera false.
+	 * 
+	 * @param pIdAgence
+	 *            Idenfitiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @param typeCarte
+	 *            Indique le type de la carte que l'on veut creer
+	 *            (TypeCarte.VisaElectron ou TypeCarte.VisaPremier)
+	 * @return Indique si l'ajout de la carte s'est effectue avec succes. Si le
+	 *         client ou le compte courant n'existe pas, la methode retournera
+	 *         false.
+	 */
+	public boolean creerCarte(String pIdAgence, Integer pIDConseiller, int indexClient, TypeCarte typeCarte) {
+		Client client = findClient(pIdAgence, pIDConseiller, indexClient);
+		if (client == null)
+			return false;
+		CompteCourant compte = client.getCompteCourant();
+		if (compte == null)
+			return false;
+		return compte.addCarte(typeCarte);
+	}
+
+	/**
+	 * Creation d'une carte Visa Electron qui sera liee au compte courant du
+	 * client. Si le client ou le compte courant n'existe pas, la methode
+	 * retournera false.
+	 * 
+	 * @param pIdAgence
+	 *            Idenfitiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @return Indique si l'ajout de la carte Visa Electron s'est effectue avec
+	 *         succes. Si le client ou le compte courant n'existe pas, la
+	 *         methode retournera false.
+	 */
+	public boolean creerCarte(String pIdAgence, Integer pIDConseiller, int indexClient) {
+		return creerCarte(pIdAgence, pIDConseiller, indexClient, TypeCarte.VisaElectron);
+	}
+
+	/**
+	 * Supprime une carte liee au compte courant. Si le client n'existe pas,
+	 * que la carte n'existe pas ou que l'identifiant de la carte n'est pas un
+	 * identifiant d'une carte liee a ce compte, la methode retourne false.
+	 * 
+	 * @param pIdAgence Identifiant de l'agence
+	 * @param pIDConseiller Identifiant du conseiller
+	 * @param indexClient Indice du client dans la liste des clients du conseiller
+	 * @param pIDCarte Identifiant de la carte
+	 * @return Indique si la suppresion s'est effectuee avec succes.
+	 */
+	public boolean supprimerCarte(String pIdAgence, Integer pIDConseiller, int indexClient, Integer pIDCarte) {
+		Client client = findClient(pIdAgence, pIDConseiller, indexClient);
+		if (client == null)
+			return false;
+		CompteCourant compte = client.getCompteCourant();
+		if (compte == null)
+			return false;
+		Integer indexCarte = compte.findCarte(pIDCarte);
+		if (indexCarte == -1)
+			return false;
+		return compte.deleteCarte(indexCarte);
 	}
 
 	/**
