@@ -32,8 +32,13 @@ public abstract class Compte {
 	}
 
 	//==========GETTERS & SETTERS==========
-	public int[] getNum() {
-		return this.num;
+	public String getNum() {
+		String strNum = "";
+		for(int valeur : num)
+		{
+			strNum += valeur;
+		}
+		return strNum;
 	}
 
 	public double getSolde() {

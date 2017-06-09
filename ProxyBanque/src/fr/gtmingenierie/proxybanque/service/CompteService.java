@@ -11,21 +11,32 @@ package fr.gtmingenierie.proxybanque.service;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import fr.gtmingenierie.proxybanque.domaine.Client;
 import fr.gtmingenierie.proxybanque.domaine.Compte;
+import fr.gtmingenierie.proxybanque.domaine.CompteBourse;
 import fr.gtmingenierie.proxybanque.domaine.CompteCourant;
 import fr.gtmingenierie.proxybanque.domaine.CompteEpargne;
 import fr.gtmingenierie.proxybanque.domaine.Conseiller;
+import fr.gtmingenierie.proxybanque.domaine.Agence;
+import fr.gtmingenierie.proxybanque.domaine.Transaction.TypeTransaction;
 
 public class CompteService {
 
 	// ==========PROPRIETE==========
 	AgenceService aS;
+	CompteBourse paris;
+	CompteBourse tokyo;
+	CompteBourse newYork;
 
 	// ==========CONSTRUCTEUR==========
-	public CompteService(AgenceService pAgenceService) {
+	public CompteService(AgenceService pAgenceService, CompteBourse pParis, CompteBourse pTokyo, CompteBourse pNewYork) {
 		aS = pAgenceService;
+		paris = pParis;
+		tokyo = pTokyo;
+		newYork = pNewYork;
 	}
 
 	// ==========METHODES==========
@@ -128,7 +139,7 @@ public class CompteService {
 			String pDateOuverture) {
 		return creerCompteEpargne(pIdAgence, pIDConseiller, indexClient, pSolde, pDateOuverture, 3.0);
 	}
-
+	
 	/**
 	 * Supprime le compte courant du client identifie par les valeurs des
 	 * parametres
@@ -206,13 +217,16 @@ public class CompteService {
 	 *            Montant du versement.
 	 * @return Indique si le virement s'est bien effecute.
 	 */
-	public boolean effectuerVirement(Compte compteDebiteur, Compte compteCrediteur, double montant) {
+	public boolean effectuerVirement(Compte compteDebiteur, Compte compteCrediteur, double montant, String message,
+			TypeTransaction type, TransactionService transactionS) {
 		double soldeDebiteur = compteDebiteur.getSolde();
 		if (soldeDebiteur < montant)
 			return false;
 
 		compteDebiteur.setSolde(soldeDebiteur - montant);
 		compteCrediteur.setSolde(compteCrediteur.getSolde() + montant);
+
+		transactionS.ajoutTransaction(compteDebiteur, compteCrediteur, montant, message, type);
 
 		return true;
 	}
@@ -236,4 +250,50 @@ public class CompteService {
 			return true;
 		return false;
 	}
+
+	public Compte rechercheCompte(String numeroCompte) {
+		//System.out.println("numéroCompte (paramètre) :"+numeroCompte);
+		Set<String> keys = aS.getMapAgence().keySet();
+		Iterator<String> it = keys.iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			Agence agence = aS.getMapAgence().get(key);
+			//System.out.println(aS.getMapAgence().get(key));
+			for (Conseiller conseiller : agence.getListeConseiller()) {
+				//System.out.println("	"+conseiller);
+				for (Client client : conseiller.getListeClient()) {
+					//System.out.println("		"+client);
+					if (client.getCompteCourant() != null) {
+						//System.out.println(client.getCompteCourant().getNum());
+						if (client.getCompteCourant().getNum().equals(numeroCompte)) {
+							return client.getCompteCourant();
+						}
+					}
+					if (client.getCompteEpargne() != null) {
+						//System.out.println(client.getCompteCourant().getNum());
+						if (client.getCompteEpargne().getNum().equals(numeroCompte)) {
+							return client.getCompteEpargne();
+						}
+					}
+				}
+
+			}
+
+		}
+		System.out.println("Echec de la recherche du compte");
+		return null; // TODO Gérer le fait de ne pas trouver de compte
+
+	}
+
+	public Compte rechercheCompteBourse(String numeroCompteBourse) {
+		if(numeroCompteBourse.equals(paris.getNum()))
+			return paris;
+		else if(numeroCompteBourse.equals(tokyo.getNum()))
+			return tokyo;
+		else if(numeroCompteBourse.equals(newYork.getNum()))
+			return newYork;
+		else
+			return null;
+	}
+
 }

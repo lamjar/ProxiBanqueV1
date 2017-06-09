@@ -54,6 +54,10 @@ public class AgenceService {
 		return mapAgence.get(idAgence);
 	}
 	
+	public HashMap<String, Agence> getMapAgence() {
+		return mapAgence;
+	}
+	
 	/**
 	 * Affiche la liste des agences de ProxyBanque
 	 */

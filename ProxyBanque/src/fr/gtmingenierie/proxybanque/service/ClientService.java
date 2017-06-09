@@ -125,6 +125,24 @@ public class ClientService {
 				.get(iClient).getVille());
 		System.out.println("Telephone : " + aS.getAgence(idAgence).getListeConseiller().get(iConseiller)
 				.getListeClient().get(iClient).getTelephone());
+		System.out.println("Catégorie du client : "+aS.getAgence(idAgence).getListeConseiller().get(iConseiller)
+				.getListeClient().get(iClient).getType());
+		if(aS.getAgence(idAgence).getListeConseiller().get(iConseiller)
+				.getListeClient().get(iClient).getCompteCourant() != null) {
+			System.out.println(aS.getAgence(idAgence).getListeConseiller().get(iConseiller)
+				.getListeClient().get(iClient).getCompteCourant());
+		}
+		else {
+			System.out.println("Le client ne possède pas de compte courant.");
+		}
+		if(aS.getAgence(idAgence).getListeConseiller().get(iConseiller)
+				.getListeClient().get(iClient).getCompteEpargne() != null) {
+			System.out.println(aS.getAgence(idAgence).getListeConseiller().get(iConseiller)
+				.getListeClient().get(iClient).getCompteEpargne());
+		}
+		else {
+			System.out.println("Le client ne possède pas de compte épargne.");
+		}
 		System.out.println("");
 	}
 
@@ -144,7 +162,7 @@ public class ClientService {
 	}
 
 	/**
-	 * Affiche la liste des client d'un conseiller.
+	 * Affiche la liste des clients d'un conseiller.
 	 * 
 	 * @param idAgence
 	 *            Identifiant de l'agence
@@ -159,6 +177,14 @@ public class ClientService {
 		System.out.println("");
 	}
 
+	public void afficherNumerote(String idAgence, int iConseiller) {
+		int i = 0;
+		for (Client c : aS.getAgence(idAgence).getListeConseiller().get(iConseiller).getListeClient()) {
+			System.out.println(i+". "+c.getNom()+" "+c.getPrenom()+" "+c.getTelephone()+"\n"+c.getAdresse()+" "+c.getCodePostal()+" "+c.getVille()+" ["+c.getType()+"]");
+			i++;
+		}
+	}
+	
 	/**
 	 * Permet d'auditer un client. Si le client n'existe pas ou qu'il ne possede
 	 * pas de compte courant, la methode retourne false.
@@ -172,6 +198,7 @@ public class ClientService {
 	 * @return Indique si le client a depasse le montant fixe pour l'audit (5000
 	 *         pour un particulier, 50000 pour un professionnel)
 	 */
+	
 	public boolean auditerClient(String idAgence, int iConseiller, int iClient) {
 		Client client;
 		try {
@@ -187,12 +214,22 @@ public class ClientService {
 			return false;
 		}
 
-		if (client.getType() == TypeClient.particulier)
-			return new CompteService(aS).auditerCompte(compte, 5000);
-		else if (client.getType() == TypeClient.professionnel)
-			return new CompteService(aS).auditerCompte(compte, 50000);
+//		if (client.getType() == TypeClient.particulier)
+//			return new CompteService(aS).auditerCompte(compte, 5000);
+//		else if (client.getType() == TypeClient.professionnel)
+//			return new CompteService(aS).auditerCompte(compte, 50000);
 
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

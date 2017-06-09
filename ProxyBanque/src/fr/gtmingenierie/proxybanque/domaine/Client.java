@@ -120,7 +120,7 @@ public class Client {
 	//==========METHODE==========
 	@Override
 	public String toString() {
-		return "[Nom : \""+nom+"\" ; Prenom : \""+prenom+"\" ; Telephone : "+telephone+"]";
+		return "[Nom : \""+nom+"\" ; Prenom : \""+prenom+"\" ; Telephone : "+telephone+"]\n";
 	}
 
 }

@@ -14,7 +14,6 @@ import fr.gtmingenierie.proxybanque.domaine.Gerant;
 public class GerantService implements IEmployeService {
 	
 	// ==========PROPRIETE==========
-	// Changer en map pour lier numéro d'ID et Agence
 	private ArrayList<Gerant> listeGerant;
 	
 	// ==========CONSTRUCTEUR==========
