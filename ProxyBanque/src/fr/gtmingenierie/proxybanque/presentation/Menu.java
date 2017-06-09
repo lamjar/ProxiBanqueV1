@@ -1,3 +1,11 @@
+/*
+ * Menu.java
+ * Date : 08/06/2017
+ * AUTEURS :
+ * Laurent LAMASSE
+ * Clement ROUX
+ * */
+
 package fr.gtmingenierie.proxybanque.presentation;
 
 import java.util.Scanner;
@@ -13,16 +21,19 @@ import fr.gtmingenierie.proxybanque.service.ConseillerService;
  */
 public class Menu {
 
+	// ==========PROPRIETES==========
 	private AgenceService agenceS;
 	private ConseillerService conseillerS;
 	private ClientService clientS;
 
+	// ==========CONSTRUCTEUR==========
 	public Menu(AgenceService pAS, ConseillerService pCS, ClientService pClientS) {
 		agenceS = pAS;
 		conseillerS = pCS;
 		clientS = pClientS;
 	}
 
+	// ==========METHODES==========
 	/**
 	 * Affiche le menu de test
 	 */
@@ -36,8 +47,8 @@ public class Menu {
 	/**
 	 * Pour effectuer la saisie dans la console
 	 * 
-	 * @param sc
-	 * @return
+	 * @param sc Objet de type Scanner qui sera utilise pour la saisie a partir de la console.
+	 * @return Un entier qui indiquera le numero de l'operation a lancer
 	 */
 	private Integer saisirValeurConsole(Scanner sc) {
 		String idStr = sc.nextLine();
@@ -51,6 +62,9 @@ public class Menu {
 		return idOperation;
 	}
 
+	/**
+	 * Execute les methodes de la couche Service
+	 */
 	public void useMenu() {
 		// Declaration des variables pour les services
 		// TODO

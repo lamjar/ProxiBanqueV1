@@ -1,7 +1,16 @@
+/*
+ * Lanceur.java
+ * Date : 08/06/2017
+ * AUTEURS :
+ * Laurent LAMASSE
+ * Clement ROUX
+ * */
+
 package fr.gtmingenierie.proxybanque.lanceur;
 
 import java.util.Scanner;
 import fr.gtmingenierie.proxybanque.domaine.*;
+import fr.gtmingenierie.proxybanque.domaine.Client.TypeClient;
 import fr.gtmingenierie.proxybanque.presentation.Menu;
 import fr.gtmingenierie.proxybanque.service.*;
 
@@ -9,6 +18,10 @@ public class Lanceur {
 
 	private static Scanner s;
 	
+	/**
+	 * Fonction principale qui lance l'application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -16,7 +29,7 @@ public class Lanceur {
 		AgenceService agenceService = new AgenceService();
 		GerantService gerantService = new GerantService();
 		ClientService clientService = new ClientService(agenceService);
-		CompteService compteService = new CompteService();
+		CompteService compteService = new CompteService(agenceService);
 		ConseillerService conseillerService = new ConseillerService(agenceService);
 		
 		Menu menu = new Menu(agenceService, conseillerService, clientService);

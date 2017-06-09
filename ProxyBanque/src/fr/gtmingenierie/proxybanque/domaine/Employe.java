@@ -1,68 +1,23 @@
+/*
+ * Employe.java
+ * Date : 08/06/2017
+ * AUTEURS :
+ * Laurent LAMASSE
+ * Clement ROUX
+ * */
+
 package fr.gtmingenierie.proxybanque.domaine;
 
 public abstract class Employe {
 
+	// ==========PROPRIETES==========
 	private static int compteurEmploye = 0;
 	private String nom;
 	private String prenom;
 	private Integer ID;
 	private String password;
 
-	public String getNom() {
-		return this.nom;
-	}
-
-	/**
-	 * 
-	 * @param nom
-	 */
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return this.prenom;
-	}
-
-	/**
-	 * 
-	 * @param prenom
-	 */
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public Integer getID() {
-		return ID;
-	}
-
-	/**
-	 * 
-	 * @param ID
-	 */
-	public void setID(Integer ID) {
-		// TODO - implement Employe.setID
-		throw new UnsupportedOperationException();
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	/**
-	 * 
-	 * @param password
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * 
-	 * @param pNom
-	 * @param pPrenom
-	 * @param pPassword
-	 */
+	// ==========CONSTRUCTEUR==========
 	public Employe(String pNom, String pPrenom, String pPassword) {
 		// TODO - implement Employe.Employe
 		nom = pNom;
@@ -71,10 +26,40 @@ public abstract class Employe {
 		ID = compteurEmploye;
 		compteurEmploye++;
 	}
+
+	// ==========GETTERS & SETTERS==========
+	public String getNom() {
+		return this.nom;
+	}
 	
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return this.prenom;
+	}
+	
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public Integer getID() {
+		return ID;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	// ==========METHODE==========
 	@Override
 	public String toString() {
-		return "[Nom : \""+nom+"\" ; Prenom : \""+prenom+"\" ; ID : "+ID+"]";
+		return "[Nom : \"" + nom + "\" ; Prenom : \"" + prenom + "\" ; ID : " + ID + "]";
 	}
 
 }

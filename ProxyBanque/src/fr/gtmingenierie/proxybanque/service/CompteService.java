@@ -1,6 +1,239 @@
+/*
+ * CompteService.java
+ * Date : 08/06/2017
+ * AUTEURS :
+ * Laurent LAMASSE
+ * Clement ROUX
+ * */
+
 package fr.gtmingenierie.proxybanque.service;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import fr.gtmingenierie.proxybanque.domaine.Client;
+import fr.gtmingenierie.proxybanque.domaine.Compte;
+import fr.gtmingenierie.proxybanque.domaine.CompteCourant;
+import fr.gtmingenierie.proxybanque.domaine.CompteEpargne;
+import fr.gtmingenierie.proxybanque.domaine.Conseiller;
+
 public class CompteService {
-	
-	
-	
+
+	// ==========PROPRIETE==========
+	AgenceService aS;
+
+	// ==========CONSTRUCTEUR==========
+	public CompteService(AgenceService pAgenceService) {
+		aS = pAgenceService;
+	}
+
+	// ==========METHODES==========
+	/**
+	 * Cette methode permet de creer un compte courant et de l'affecter au
+	 * client indique en parametre par son identifiant.
+	 * 
+	 * @param pIdAgence
+	 *            Identifiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @param pSolde
+	 *            Montant du solde du client
+	 * @param pDateOuverture
+	 *            Date d'ouverture du compte
+	 * @param plafondDecouvert
+	 *            Montant du plafond de decouvert
+	 * @return Indique si la creation du compte a ete effectue avec succes
+	 */
+	public boolean creerCompteCourant(String pIdAgence, Integer pIDConseiller, int indexClient, double pSolde,
+			String pDateOuverture, double plafondDecouvert) {
+		Client client = findClient(pIdAgence, pIDConseiller, indexClient);
+		if (client == null)
+			return false;
+		client.setCompteCourant(new CompteCourant(pSolde, pDateOuverture, plafondDecouvert));
+		return true;
+	}
+
+	/**
+	 * Cette methode permet de creer un compte courant et de l'affecter au
+	 * client indique en parametre par son identifiant. La valeur du montant du
+	 * plafond de decouvert sera fixe a 1000 euros.
+	 * 
+	 * @param pIdAgence
+	 *            Identifiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @param pSolde
+	 *            Montant du solde du client
+	 * @param pDateOuverture
+	 *            Date d'ouverture du compte
+	 * @return Indique si la creation du compte a ete effectue avec succes.
+	 */
+	public boolean creerCompteCourant(String pIdAgence, Integer pIDConseiller, int indexClient, double pSolde,
+			String pDateOuverture) {
+		return creerCompteCourant(pIdAgence, pIDConseiller, indexClient, pSolde, pDateOuverture, 1000.0);
+	}
+
+	/**
+	 * Cette methode permet de creer un compte epargne et de l'affecter au
+	 * client indique en parametre par son identifiant.
+	 * 
+	 * @param pIdAgence
+	 *            Identifiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @param pSolde
+	 *            Montant du solde du client
+	 * @param pDateOuverture
+	 *            Date d'ouverture du compte
+	 * @param pTauxRemuneration
+	 *            Valeur du taux de remuneration en pourcentage (valeur entre
+	 *            100 et 0)
+	 * @return Indique si la creation du compte a ete effectue avec succes.
+	 */
+	public boolean creerCompteEpargne(String pIdAgence, Integer pIDConseiller, int indexClient, double pSolde,
+			String pDateOuverture, double pTauxRemuneration) {
+		Client client = findClient(pIdAgence, pIDConseiller, indexClient);
+		if (client == null)
+			return false;
+
+		client.setCompteEpargne(new CompteEpargne(pSolde, pDateOuverture, pTauxRemuneration));
+		return true;
+	}
+
+	/**
+	 * Cette methode permet de creer un compte epargne et de l'affecter au
+	 * client indique en parametre par son identifiant. La valeur du taux de
+	 * remuneration sera fixe a 3%.
+	 * 
+	 * @param pIdAgence
+	 *            Identifiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @param pSolde
+	 *            Montant du solde du client
+	 * @param pDateOuverture
+	 *            Date d'ouverture du compte
+	 * @return Indique si la creation du compte a ete effectue avec succes.
+	 */
+	public boolean creerCompteEpargne(String pIdAgence, Integer pIDConseiller, int indexClient, double pSolde,
+			String pDateOuverture) {
+		return creerCompteEpargne(pIdAgence, pIDConseiller, indexClient, pSolde, pDateOuverture, 3.0);
+	}
+
+	/**
+	 * Supprime le compte courant du client identifie par les valeurs des
+	 * parametres
+	 * 
+	 * @param pIdAgence
+	 *            Idenfitiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @return Indique si la suppression du compte a bien ete effectue avec
+	 *         succes.
+	 */
+	public boolean supprimerCompteCourant(String pIdAgence, Integer pIDConseiller, int indexClient) {
+		Client client = findClient(pIdAgence, pIDConseiller, indexClient);
+		if (client == null)
+			return false;
+		client.setCompteCourant(null);
+		return true;
+	}
+
+	/**
+	 * Supprime le compte epargne du client identifie par les valeurs des
+	 * parametres
+	 * 
+	 * @param pIdAgence
+	 *            Idenfitiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @return Indique si la suppression du compte a bien ete effectue avec
+	 *         succes.
+	 */
+	public boolean supprimerCompteEpargne(String pIdAgence, Integer pIDConseiller, int indexClient) {
+		Client client = findClient(pIdAgence, pIDConseiller, indexClient);
+		if (client == null)
+			return false;
+		client.setCompteEpargne(null);
+		return true;
+	}
+
+	/**
+	 * Retrouve le client a partir des informations fournis en parametre.
+	 * 
+	 * @param pIdAgence
+	 *            Idenfitiant de l'agence
+	 * @param pIDConseiller
+	 *            Identifiant du conseiller
+	 * @param indexClient
+	 *            Indice du client dans la liste des clients du conseiller
+	 * @return Retourne le client. Si le client n'existe pas, la methode
+	 *         retourne "null".
+	 */
+	private Client findClient(String pIdAgence, Integer pIDConseiller, int indexClient) {
+		ArrayList<Conseiller> listeConseiller = aS.getAgence(pIdAgence).getListeConseiller();
+
+		for (Conseiller conseiller : listeConseiller) {
+			if (conseiller.getID().equals(pIDConseiller)) {
+				return conseiller.getListeClient().get(indexClient);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Effectue un virement entre le compte debiteur et le compte crediteur. Si
+	 * le compte debiteur n'a pas assez d'argent, le virement est annule.
+	 * 
+	 * @param compteDebiteur
+	 *            Compte du client debiteur.
+	 * @param compteCrediteur
+	 *            Compte du client crediteur.
+	 * @param montant
+	 *            Montant du versement.
+	 * @return Indique si le virement s'est bien effecute.
+	 */
+	public boolean effectuerVirement(Compte compteDebiteur, Compte compteCrediteur, double montant) {
+		double soldeDebiteur = compteDebiteur.getSolde();
+		if (soldeDebiteur < montant)
+			return false;
+
+		compteDebiteur.setSolde(soldeDebiteur - montant);
+		compteCrediteur.setSolde(compteCrediteur.getSolde() + montant);
+
+		return true;
+	}
+
+	/**
+	 * Indique si le compte a debite plus que le montant indique en parametre.
+	 * Si le montant passe en parametre est negatif, la methode retourne false.
+	 * 
+	 * @param compte
+	 *            Compte du client
+	 * @param pMontant
+	 *            Montant indique pour l'audit
+	 * @return Indique si le montant de l'audit est depasse
+	 */
+	public boolean auditerCompte(Compte compte, double pMontant) {
+		if (pMontant < 0)
+			return false;
+
+		double diffSolde = compte.getSoldeInitial() - compte.getSolde();
+		if (diffSolde > pMontant)
+			return true;
+		return false;
+	}
 }
