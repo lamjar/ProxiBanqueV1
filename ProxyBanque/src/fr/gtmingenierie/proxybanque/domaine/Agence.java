@@ -17,12 +17,12 @@ public class Agence {
 	private String dateCreation;
 	private Gerant gerant;
 	private ArrayList<Conseiller> listeConseiller;
+	private static char[] compteurID = {'0', '0', '0', '0', '0'};
 
 	// ==========CONSTRUCTEUR==========
-	public Agence(String pID, String pDateCreation) {
-		// TODO - implement Agence.Agence
+	public Agence(String pDateCreation) {
 		dateCreation = pDateCreation;
-		ID = pID;
+		ID = genererID();
 		listeConseiller = new ArrayList<Conseiller>();
 	}
 
@@ -40,7 +40,7 @@ public class Agence {
 	}
 	
 	public void setDateCreation(String dateCreation) {
-		this.dateCreation = dateCreation;
+			this.dateCreation = dateCreation;
 	}
 
 	public Gerant getGerant() {
@@ -59,6 +59,36 @@ public class Agence {
 	@Override
 	public String toString() {
 		return "[Identifiant : "+ID+" ; date de creation : "+dateCreation+" ; Nom du gerant : "+gerant.getNom()+"]";
+	}
+	
+	/**
+	 * Genere un identifiant alphanumerique de 5 caracteres
+	 * @return L'identifiant genere
+	 */
+	private String genererID()
+	{
+		String nouveauID = "";
+		for(int i=0; i<5 ;i++)
+			nouveauID += compteurID[i];
+		
+		for(int i=4; i>=0 ;i--)
+		{
+			if(compteurID[i] == 'z')
+			{
+				compteurID[i] = '0';
+				continue;
+			}
+			
+			if(compteurID[i] == '9')
+				compteurID[i] = 'A';
+			else if(compteurID[i] == 'Z')
+				compteurID[i] = 'a';
+			else
+				compteurID[i]++;
+			break;
+		}
+		
+		return nouveauID;
 	}
 
 }

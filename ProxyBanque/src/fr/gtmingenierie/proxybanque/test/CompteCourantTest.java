@@ -1,3 +1,11 @@
+/*
+ * CompteCourantTest.java
+ * Date : 08/06/2017
+ * AUTEURS :
+ * Laurent LAMASSE
+ * Clement ROUX
+ * */
+
 package fr.gtmingenierie.proxybanque.test;
 
 import org.junit.Rule;

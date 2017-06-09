@@ -32,10 +32,6 @@ public abstract class Carte {
 	//==========METHODE==========
 	@Override
 	public String toString() {
-		String strNumero = "";
-		int[] num = compte.getNum();
-		for(int i=0; i<num.length; i++)
-			strNumero += num[i];
-		return "[Carte n°"+ ID +" ; Numero du compte : "+ strNumero +"]";
+		return "[Carte n°"+ ID +" ; Numero du compte : "+ compte.getNum() +"]";
 	}
 }
