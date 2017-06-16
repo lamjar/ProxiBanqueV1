@@ -137,31 +137,32 @@ public class Menu {
 			int iConseiller = sc.nextInt();
 			int reponse;
 			if (iConseiller < agenceS.getAgence(idAgence).getListeConseiller().size()) {
-				System.out.println("Choisissez le menu :");
-				System.out.println(" 1. Menu client\n 2. Menu virements \n 3. Menu placements \n 4. Menu audit");
-				do {
-					reponse = sc.nextInt();
-				} while (reponse < 0 || reponse > 4);
-				switch (reponse) {
-				case 1:
-					sousMenuActionsClient(sc, idAgence, iConseiller);
-					break;
-				case 2:
-					sousMenuVirement(sc, idAgence, iConseiller);
-					break;
-				case 3:
-					sousMenuPlacement(sc, idAgence, iConseiller);
-					break;
-				case 4:
-					// sousMenuAudit
-					break;
-				case 0:
-					continuer = false;
-					break;
-				default:
-					System.err.println("Saisie incorrecte\nEntrez une des options proposées.\n");
+				while(continuer){	
+					System.out.println("Choisissez le menu :");
+					System.out.println(" 1. Menu client\n 2. Menu virements \n 3. Menu placements \n 4. Menu audit \n 0. Retour");
+					do {
+						reponse = sc.nextInt();
+					} while (reponse < 0 || reponse > 4);
+					switch (reponse) {
+					case 1:
+						sousMenuActionsClient(sc, idAgence, iConseiller);
+						break;
+					case 2:
+						sousMenuVirement(sc, idAgence, iConseiller);
+						break;
+					case 3:
+						sousMenuPlacement(sc, idAgence, iConseiller);
+						break;
+					case 4:
+						// sousMenuAudit
+						break;
+					case 0:
+						continuer = false;
+						break;
+					default:
+						System.err.println("Saisie incorrecte\nEntrez une des options proposées.\n");
+					}
 				}
-
 			} else {
 				System.err.println("Saisie incorrecte\nEntrez une des options proposées.\n");
 			}
@@ -364,7 +365,14 @@ public class Menu {
 			if (validation == 'O')
 				compteS.effectuerVirement(compteDebiteur, compteACrediter, montant, message, TypeTransaction.virement,
 						transactionS);
-
+			System.out.println("");
+			System.out.println("Voulez vous faire un autre virement ? (O/N)");
+			do {
+				validation = sc.next().charAt(0);
+			} while (validation != 'O' && validation != 'N');
+			if (validation == 'N')
+				continuer = false;
+			System.out.println("");
 		}
 
 	}
@@ -446,7 +454,14 @@ public class Menu {
 			if (validation == 'O')
 				compteS.effectuerVirement(compteDebiteur, compteBourse, montant, message, TypeTransaction.placement,
 						transactionS);
-
+			System.out.println("");
+			System.out.println("Voulez vous faire un autre placement ? (O/N)");
+			do {
+				validation = sc.next().charAt(0);
+			} while (validation != 'O' && validation != 'N');
+			if (validation == 'N')
+				continuer = false;
+			System.out.println("");
 		}
 
 	}
